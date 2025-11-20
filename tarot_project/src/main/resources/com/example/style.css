@@ -1,0 +1,6 @@
+.OneoracleButton {
+    -fx-background-image: url("img/ワンオラクル.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
