@@ -13,7 +13,7 @@
       
       <Button fx:id="Oneoracle" graphicTextGap="0.0" layoutX="106.0" layoutY="60.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="89.0" styleClass="OneoracleButton" textOverrun="CLIP">
          <font>
-            <Font size="1.0" />
+            <Font size="2.0" />
          </font>
       </Button>
 =======
