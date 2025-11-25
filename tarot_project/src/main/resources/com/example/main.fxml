@@ -9,11 +9,11 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox layoutX="32.0" layoutY="47.0" prefHeight="93.0" prefWidth="684.0" spacing="30.0" AnchorPane.bottomAnchor="362.6" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="47.0">
+      <HBox alignment="CENTER" layoutX="32.0" layoutY="37.0" spacing="30.0" AnchorPane.bottomAnchor="400.59999999999997" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="37.0">
          <children>
-            <Button fx:id="OneoracleBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="Oracle-btn" stylesheets="@style.css" text="ワンオラクル" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+            <Button fx:id="OneoracleBtn" contentDisplay="TOP" mnemonicParsing="false" styleClass="Oracle-btn" stylesheets="@style.css" text="ワンオラクル" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -25,7 +25,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button fx:id="ThreeCardsBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="ThreeCards-btn" stylesheets="@style.css" text="スリーカード" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+            <Button fx:id="ThreeCardsBtn" contentDisplay="TOP" mnemonicParsing="false" styleClass="ThreeCards-btn" stylesheets="@style.css" text="スリーカード" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -37,7 +37,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button fx:id="YesorNoBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="YesorNo-btn" stylesheets="@style.css" text="イェス・ノー&#10;スプレッド" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+            <Button fx:id="YesorNoBtn" contentDisplay="TOP" mnemonicParsing="false" styleClass="YesorNo-btn" stylesheets="@style.css" text="イェス・ノー&#10;スプレッド" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
                      <color>
@@ -49,7 +49,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="SeikakuBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="Seikaku-btn" stylesheets="@style.css" text="性格診断" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+            <Button fx:id="SeikakuBtn" contentDisplay="TOP" mnemonicParsing="false" styleClass="Seikaku-btn" stylesheets="@style.css" text="性格診断" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -61,7 +61,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button fx:id="Celticbtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="Celtic-btn" stylesheets="@style.css" text="ケルト十字" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+            <Button fx:id="Celticbtn" contentDisplay="TOP" mnemonicParsing="false" styleClass="Celtic-btn" stylesheets="@style.css" text="ケルト十字" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
                      <color>
@@ -75,12 +75,12 @@
             </Button>
          </children>
       </HBox>
-      <ImageView fitHeight="84.0" fitWidth="303.0" layoutX="223.0" layoutY="390.0">
+      <ImageView fitHeight="84.0" fitWidth="373.0" layoutX="242.0" layoutY="480.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="242.0">
          <image>
             <Image url="@../../button%20image/Group%203.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="117.0" layoutX="316.0" layoutY="140.0">
+      <ImageView fitHeight="266.0" fitWidth="186.0" layoutX="335.0" layoutY="182.0" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="335.0" AnchorPane.rightAnchor="336.0">
          <image>
             <Image url="@../../button%20image/back%20(1).png" />
          </image>
