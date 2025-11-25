@@ -2,6 +2,7 @@
 
 
 .Oracle-btn{
+    -fx-arc-height: 150,60;
     -fx-background-color: #FCE7EB;
     -fx-background-radius: 10px;
     -fx-background-insets: 0px;
