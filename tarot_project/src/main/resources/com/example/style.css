@@ -1,0 +1,49 @@
+.Oracle-btn{
+    -fx-background-color: #FCE7EB;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 0px;
+    -fx-border-color: #BFADCA;
+    -fx-border-radius: 10px;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+.ThreeCards-btn{
+    -fx-background-color: #FCE7EB;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 0px;
+    -fx-border-color: #BFADCA;
+    -fx-border-radius: 10px;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+.YesorNo-btn{
+    -fx-background-color: #FCE7EB;
+    -fx-background-radius: 10px;    
+    -fx-background-insets: 0px;
+    -fx-border-color: #BFADCA;
+    -fx-border-radius: 10px;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+.Seikaku-btn{
+    -fx-background-color: #FCE7EB;
+    -fx-background-radius: 10px;    
+    -fx-background-insets: 0px;
+    -fx-border-color: #BFADCA;
+    -fx-border-radius: 10px;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+.Celtic-btn{
+    -fx-background-color: #FCE7EB;
+    -fx-background-radius: 10px;    
+    -fx-background-insets: 0px;
+    -fx-border-color: #BFADCA;
+    -fx-border-radius: 10px;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+.Oracle-btn:pressed{
+    -fx-background-color: derive(#BFADCA, -20%);
+    -fx-translate-y: 1; 
+}

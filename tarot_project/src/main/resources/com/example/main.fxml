@@ -1,10 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button contentDisplay="TOP" layoutX="128.0" layoutY="90.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="148.0" styleClass="Oracle-btn" stylesheets="@style.css" />
+      <HBox layoutX="1.0" layoutY="54.0" prefHeight="94.0" prefWidth="748.0" AnchorPane.leftAnchor="0.7999999999999545" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="54.0">
+         <children>
+            <Button fx:id="OneoracleBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="Oracle-btn" stylesheets="@style.css" text="ワンオラクル" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+                     <color>
+                        <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button fx:id="ThreeCardsBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="47.0" prefWidth="99.0" styleClass="ThreeCards-btn" stylesheets="@style.css" text="スリーカード" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+                     <color>
+                        <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button fx:id="YesorNoBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="47.0" prefWidth="99.0" styleClass="YesorNo-btn" stylesheets="@style.css" text="イェス・ノー・スプレッド" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+                     <color>
+                        <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button fx:id="SeikakuBtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="47.0" prefWidth="99.0" styleClass="Seikaku-btn" stylesheets="@style.css" text="性格診断" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+                     <color>
+                        <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button fx:id="Celticbtn" contentDisplay="TOP" mnemonicParsing="false" prefHeight="47.0" prefWidth="99.0" styleClass="Celtic-btn" stylesheets="@style.css" text="ケルト十字" textAlignment="CENTER" textFill="#bfadca" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+                     <color>
+                        <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
