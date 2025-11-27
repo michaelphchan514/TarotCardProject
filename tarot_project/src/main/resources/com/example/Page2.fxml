@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="OneoracleBtn" contentDisplay="TOP" layoutX="98.0" layoutY="99.0" mnemonicParsing="false" styleClass="Oracle-btn" stylesheets="@style.css" text="ワンオラクル" textAlignment="CENTER" textFill="#bfadca">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+               <color>
+                  <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
+      <Button fx:id="ThreeCardsBtn" contentDisplay="TOP" layoutX="352.0" layoutY="99.0" mnemonicParsing="false" styleClass="ThreeCards-btn" stylesheets="@style.css" text="スリーカード" textAlignment="CENTER" textFill="#bfadca">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+               <color>
+                  <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
+      <Button fx:id="YesorNoBtn" contentDisplay="TOP" layoutX="599.0" layoutY="99.0" mnemonicParsing="false" styleClass="YesorNo-btn" stylesheets="@style.css" text="イェス・ノー&#10;スプレッド" textAlignment="CENTER" textFill="#bfadca">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+               <color>
+                  <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+               </color>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="SeikakuBtn" contentDisplay="TOP" layoutX="211.0" layoutY="351.0" mnemonicParsing="false" styleClass="Seikaku-btn" stylesheets="@style.css" text="性格診断" textAlignment="CENTER" textFill="#bfadca">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+               <color>
+                  <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
+      <Button fx:id="Celticbtn" contentDisplay="TOP" layoutX="486.0" layoutY="351.0" mnemonicParsing="false" styleClass="Celtic-btn" stylesheets="@style.css" text="ケルト十字" textAlignment="CENTER" textFill="#bfadca">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="23.34" offsetX="2.0" offsetY="2.0" radius="11.754999999999999" width="25.68">
+               <color>
+                  <Color red="0.7490196228027344" green="0.6784313917160034" blue="0.7921568751335144" />
+               </color>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="179.0" fitWidth="113.0" layoutX="108.0" layoutY="166.0">
+         <image>
+            <Image url="@../../tarot%20cards%20image/Minor%20Arcana/Cups/ace%20of%20cups.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="179.0" fitWidth="110.0" layoutX="364.0" layoutY="166.0">
+         <image>
+            <Image url="@../../tarot%20cards%20image/Minor%20Arcana/swords/eight%20of%20swords.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="179.0" fitWidth="118.0" layoutX="607.0" layoutY="166.0">
+         <image>
+            <Image url="@../../tarot%20cards%20image/Minor%20Arcana/wands/queen%20of%20wands.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
