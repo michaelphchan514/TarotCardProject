@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WindowsPartitionMapping>
+	<Disks>
+		<Disk>
+			<DiskID>0x4f494d44</DiskID>
+			<Partitions>
+				<Partition>
+					<Index>3</Index>
+					<Path>C:\</Path>
+					<SystemDrive />
+				</Partition>
+			</Partitions>
+		</Disk>
+	</Disks>
+</WindowsPartitionMapping>

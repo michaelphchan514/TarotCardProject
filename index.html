@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Reading Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">🔮 Tarot Reading</h1>
+            <p class="subtitle">Discover your path through the cards</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Reading Type Selection -->
+            <section class="reading-selection" id="readingSelection">
+                <h2>Choose Your Reading</h2>
+                <div class="reading-options">
+                    <button class="reading-btn" data-reading="single">
+                        <span class="icon">🎴</span>
+                        <span class="label">Single Card</span>
+                        <span class="description">Quick insight for today</span>
+                    </button>
+                    <button class="reading-btn" data-reading="three">
+                        <span class="icon">✨</span>
+                        <span class="label">Three Card Spread</span>
+                        <span class="description">Past, Present, Future</span>
+                    </button>
+                    <button class="reading-btn" data-reading="celtic">
+                        <span class="icon">🌟</span>
+                        <span class="label">Celtic Cross</span>
+                        <span class="description">Comprehensive reading</span>
+                    </button>
+                    <button class="reading-btn" data-reading="yesno">
+                        <span class="icon">✅</span>
+                        <span class="label">Yes / No</span>
+                        <span class="description">Clarity on binary questions</span>
+                    </button>
+                    <button class="reading-btn" data-reading="personality">
+                        <span class="icon">🧠</span>
+                        <span class="label">Personality Diagnose</span>
+                        <span class="description">Decode your archetypal traits</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Card Selection Area -->
+            <section class="card-area" id="cardArea" style="display: none;">
+                <div class="instructions" id="instructions">
+                    <p>Click on a card to reveal your reading</p>
+                </div>
+                <div class="cards-container" id="cardsContainer"></div>
+                <button class="btn-reset" id="resetBtn">New Reading</button>
+            </section>
+
+            <!-- Reading Results -->
+            <section class="reading-results" id="readingResults" style="display: none;">
+                <div class="results-header">
+                    <h2>Your Reading</h2>
+                </div>
+                <div class="results-content" id="resultsContent"></div>
+                <button class="btn-reset" id="backBtn">Back to Selection</button>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Tarot cards for guidance and reflection</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
