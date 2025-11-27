@@ -1,3 +1,11 @@
+// ▼▼ 1. SDKをインポートします ▼▼
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+// ▼▼ 2. APIキーを設定します (本来はサーバー経由が安全ですが、テスト用にここに書きます) ▼▼
+const API_KEY = "AAIzaSyCfwDLBsSKUcWspapVu4zCK20C8aiWIpjs";
+const genAI = new GoogleGenerativeAI(API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 const spreads = [
     {
         id: 'one',
@@ -140,7 +148,8 @@ function bindEvents() {
 
     presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
-    analyzeBtn.addEventListener('click', () => {
+    // ▼▼ 3. 分析ボタンのイベントリスナーをAI対応版に変更 ▼▼
+    analyzeBtn.addEventListener('click', async () => {
         const questionText =
             currentQuestionMode === 'preset'
                 ? presetQuestionSelect.value
@@ -152,13 +161,48 @@ function bindEvents() {
         }
 
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
-        const message = `
-            <h4>${spreadInfo.title} を選択しました</h4>
-            <p>質問内容：${questionText}</p>
-            <p>このスプレッドでは、<strong>${spreadInfo.description}</strong> という視点で深く読み解くことができます。カードを引きながら、直感で気づいた言葉や感情をメモしてみましょう。</p>
-            <p>準備が整ったら、実際のカードを展開し、ポジションごとに意味を感じ取ってください。結果はいつでも変化しうるので、柔らかい心で受け止めてみてくださいね。</p>
+        
+        // 読み込み中表示
+        analysisOutput.innerHTML = `
+            <p style="color: var(--primary);">カードを引いています...星の配置を読み解いています...</p>
         `;
-        analysisOutput.innerHTML = message;
+        analyzeBtn.disabled = true;
+        analyzeBtn.textContent = "占い中...";
+
+        try {
+            // プロンプト（AIへの指示書）の作成
+            const prompt = `
+                あなたは神秘的で洞察力のあるプロのタロット占い師です。
+                以下の相談者の質問に対し、指定されたスプレッド（展開法）に基づいて占ってください。
+                
+                ■ 相談者の質問
+                ${questionText}
+
+                ■ 使用するスプレッド
+                ${spreadInfo.title}
+                (${spreadInfo.description})
+
+                ■ 出力形式の指示
+                HTMLタグ（<h3>, <p>, <strong>など）を使って、あなたのアプリのデザインに合うように整形して出力してください。
+                口調は優しく、しかし確信を持って、相談者の背中を押すようなトーンでお願いします。
+                ランダムにタロットカードを選んだと仮定して、そのカード名とその意味、そして具体的なアドバイスを提示してください。
+            `;
+
+            // Gemini APIを呼び出す
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+
+            // 結果を表示
+            analysisOutput.innerHTML = text;
+
+        } catch (error) {
+            console.error(error);
+            analysisOutput.innerHTML = `<p style="color: #ffbadb;">星の光が届きませんでした。もう一度お試しください。（エラー: API接続に失敗）</p>`;
+        } finally {
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = "分析";
+        }
     });
 }
 
@@ -184,4 +228,3 @@ function initMotionStage() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-
