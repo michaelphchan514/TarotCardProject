@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarot Application – v2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique+Soft&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index2.css" />
+</head>
+<body>
+    <div class="app-shell">
+        <header class="hero">
+            <div class="hero__background">
+                <div class="blur blur--one"></div>
+                <div class="blur blur--two"></div>
+                <div class="blur blur--three"></div>
+            </div>
+            <div class="hero__content">
+                <div class="hero__icon">
+                    <span>⌂</span>
+                </div>
+                <div class="hero__text">
+                    <p class="hero__eyebrow">TAROT APPLICATION</p>
+                    <h1>タロットの世界へようこそ</h1>
+                    <p class="hero__subtitle">タロットをクリックしてスタート – 自分の質問を入力するか、参考質問から選んでください。</p>
+                </div>
+                <div class="hero__card-stack">
+                    <div class="tarot-card card--back"></div>
+                    <div class="tarot-card card--front"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="motion-section">
+            <div class="motion-section__text">
+                <h2>カードスプレッド・モーション</h2>
+                <p>より滑らかなアニメーションと豊富な枚数で、カードが扇状に広がる動きを再現しました。</p>
+            </div>
+            <div class="motion-stage" id="motionStage"></div>
+        </section>
+
+        <main>
+            <section class="question-switcher">
+                <div class="question-option active" data-question-mode="custom">
+                    <h3>自分で入力する質問</h3>
+                    <p>今気になっているテーマを自由に入力しましょう。</p>
+                </div>
+                <div class="question-option" data-question-mode="preset">
+                    <h3>あらかじめ用意した質問</h3>
+                    <p>目的別にセットされた質問から選べます。</p>
+                </div>
+            </section>
+
+            <section class="question-panel">
+                <label for="customQuestion">どちらかを選んで下さい：</label>
+                <textarea id="customQuestion" placeholder="例：今日の私に必要な心がけは？"></textarea>
+
+                <div class="preset-container hidden" id="presetContainer">
+                    <div class="preset-group">
+                        <label for="presetSpread">スプレッドを選択：</label>
+                        <select id="presetSpread"></select>
+                    </div>
+                    <div class="preset-group">
+                        <label for="presetQuestion">参考質問：</label>
+                        <select id="presetQuestion"></select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="spread-grid">
+                <!-- Populated by JS -->
+            </section>
+
+            <section class="analysis-panel">
+                <div class="analysis-card">
+                    <div class="analysis-card__text">
+                        <h3>分析モード</h3>
+                        <p>カードをクリックすると、選択したテーマに沿って解釈が表示されます。</p>
+                    </div>
+                    <button id="analyzeBtn">分析</button>
+                </div>
+                <div class="analysis-output" id="analysisOutput">
+                    <p class="placeholder">ここに読み解き結果が表示されます。</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© Tarot Application – Guidance & Reflection</p>
+        </footer>
+    </div>
+
+    <script src="index2.js"></script>
+</body>
+</html>
+
