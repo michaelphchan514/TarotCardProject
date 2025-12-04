@@ -140,7 +140,7 @@ function bindEvents() {
 
     presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
-    analyzeBtn.addEventListener('click', () => {
+    analyzeBtn.addEventListener('click', async () => {
         const questionText =
             currentQuestionMode === 'preset'
                 ? presetQuestionSelect.value
@@ -152,13 +152,60 @@ function bindEvents() {
         }
 
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
-        const message = `
+
+        // UIを更新し、読み込み中であることを示す
+        analysisOutput.innerHTML = `
             <h4>${spreadInfo.title} を選択しました</h4>
             <p>質問内容：${questionText}</p>
-            <p>このスプレッドでは、<strong>${spreadInfo.description}</strong> という視点で深く読み解くことができます。カードを引きながら、直感で気づいた言葉や感情をメモしてみましょう。</p>
-            <p>準備が整ったら、実際のカードを展開し、ポジションごとに意味を感じ取ってください。結果はいつでも変化しうるので、柔らかい心で受け止めてみてくださいね。</p>
+            <p>タロットからのメッセージを生成中です...少々お待ちください ⏳</p>
         `;
-        analysisOutput.innerHTML = message;
+        analyzeBtn.disabled = true; // ボタンを無効化
+        
+        // 🌟 サーバープロキシへのリクエスト
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: questionText,
+                    spreadTitle: spreadInfo.title,
+                    spreadDescription: spreadInfo.description,
+                    spreadTag: spreadInfo.tag,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            const readingResult = data.reading;
+
+            // 最終的な結果を表示
+            const finalMessage = `
+                <h4>${spreadInfo.title} の読み解き結果</h4>
+                <p>質問内容：${questionText}</p>
+                <div style="margin-top: 15px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+                    <p style="font-weight: bold; color: var(--accent-strong);">💡 タロットからのメッセージ</p>
+                    <p>${readingResult}</p>
+                </div>
+                <p style="color: var(--muted); margin-top: 20px;">このスプレッドでは、<strong>${spreadInfo.description}</strong> という視点で深く読み解くことができます。カードを引きながら、直感で気づいた言葉や感情をメモしてみましょう。</p>
+            `;
+            analysisOutput.innerHTML = finalMessage;
+
+        } catch (error) {
+            console.error('分析エラー:', error);
+            analysisOutput.innerHTML = `
+                <h4>分析中にエラーが発生しました</h4>
+                <p>質問内容：${questionText}</p>
+                <p style="color: red;">エラー: サーバーとの通信またはGemini API呼び出しで問題が発生しました。コンソールを確認してください。</p>
+            `;
+        } finally {
+            analyzeBtn.disabled = false; // ボタンを再有効化
+        }
     });
 }
 
