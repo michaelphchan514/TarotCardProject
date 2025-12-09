@@ -76,16 +76,56 @@ const spreadGrid = document.querySelector('.spread-grid');
 const analysisOutput = document.getElementById('analysisOutput');
 const analyzeBtn = document.getElementById('analyzeBtn');
 const motionStage = document.getElementById('motionStage');
+const cardsDisplaySection = document.getElementById('cardsDisplaySection');
+const cardsContainer = document.getElementById('cardsContainer');
+const cardsInstructions = document.getElementById('cardsInstructions');
 
 let currentQuestionMode = 'custom';
 let currentSpread = spreads[0].id;
+let allCards = [];
+let selectedCards = [];
 
 function init() {
     initMotionStage();
+    loadCards();
     renderSpreads();
     populateSpreadOptions();
     bindEvents();
     updatePresetQuestions();
+}
+
+function loadCards() {
+    // Load Major Arcana cards - mapping card names to actual filenames
+    const cardFileMap = {
+        'The Fool': 'The Fool.png',
+        'The Magician': 'the magician.png',
+        'The High Priestess': 'the high priestess.png',
+        'The Empress': 'the empress.png',
+        'The Emperor': 'the emperor.png',
+        'The Hierophant': 'the hierophant.png',
+        'The Lovers': 'the lovers.png',
+        'The Chariot': 'the chariot.png',
+        'Strength': 'strength.png',
+        'The Hermit': 'the hermit.png',
+        'Wheel of Fortune': 'wheel of fortune.png',
+        'Justice': 'justice.png',
+        'The Hanged Man': 'the hanged man.png',
+        'Death': 'death.png',
+        'Temperance': 'temperance.png',
+        'The Devil': 'the devil.png',
+        'The Tower': 'the tower.png',
+        'The Star': 'the star.png',
+        'The Moon': 'the moon.png',
+        'The Sun': 'the sun.png',
+        'Judgement': 'judgement.png',
+        'The World': 'the world.png'
+    };
+
+    const majorArcana = Object.keys(cardFileMap);
+    allCards = majorArcana.map(card => ({
+        name: card,
+        image: `tarot cards image/Major Arcana/${cardFileMap[card]}`
+    }));
 }
 
 function renderSpreads() {
@@ -151,6 +191,9 @@ function bindEvents() {
             return;
         }
 
+        // Display cards
+        displayCards();
+        
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
 
         // UIを更新し、読み込み中であることを示す
@@ -202,7 +245,7 @@ function bindEvents() {
                 <h4>分析中にエラーが発生しました</h4>
                 <p>質問内容：${questionText}</p>
                 <p style="color: red;">エラー: サーバーとの通信またはGemini API呼び出しで問題が発生しました。コンソールを確認してください。</p>
-            `;
+        `;
         } finally {
             analyzeBtn.disabled = false; // ボタンを再有効化
         }
@@ -230,5 +273,98 @@ function initMotionStage() {
     }
 }
 
+function displayCards() {
+    if (!cardsContainer || !cardsDisplaySection) return;
+    
+    // Determine card count based on spread
+    let cardCount = 1;
+    if (currentSpread === 'three') cardCount = 3;
+    if (currentSpread === 'celtic') cardCount = 10;
+    if (currentSpread === 'yesno') cardCount = 3;
+    if (currentSpread === 'personality') cardCount = 3;
+
+    // Show cards section
+    cardsDisplaySection.style.display = 'block';
+    cardsContainer.innerHTML = '';
+    selectedCards = [];
+
+    // Shuffle cards
+    const shuffled = [...allCards].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, cardCount);
+
+    // Label mapping
+    const labelMap = {
+        three: ['過去', '現在', '未来'],
+        yesno: ['エネルギー', '行動', '結果'],
+        personality: ['本質', '強み', '課題'],
+        celtic: [
+            '現在の状況', '課題', '遠い過去', '最近の過去',
+            '可能な未来', '近い未来', 'あなたのアプローチ', '外部の影響',
+            '希望と恐れ', '最終結果'
+        ]
+    };
+
+    const labels = labelMap[currentSpread] || [];
+
+    selected.forEach((card, index) => {
+        const cardWrapper = document.createElement('div');
+        cardWrapper.className = 'card-wrapper';
+        cardWrapper.dataset.index = index;
+
+        const tarotCard = document.createElement('div');
+        tarotCard.className = 'flipable-tarot-card';
+
+        // Card back
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card-face card-back-face';
+        cardBack.innerHTML = '🔮';
+
+        // Card front
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card-face card-front-face';
+        const img = document.createElement('img');
+        img.src = card.image;
+        img.alt = card.name;
+        img.onerror = () => {
+            // Fallback if image doesn't load
+            cardFront.innerHTML = `<div style="text-align: center; padding: 20px;">
+                <h3>${card.name}</h3>
+            </div>`;
+        };
+        cardFront.appendChild(img);
+
+        tarotCard.appendChild(cardBack);
+        tarotCard.appendChild(cardFront);
+
+        // Card label
+        const label = document.createElement('div');
+        label.className = 'card-label';
+        if (labels[index]) {
+            label.textContent = labels[index];
+        }
+
+        cardWrapper.appendChild(tarotCard);
+        cardWrapper.appendChild(label);
+
+        // Click to flip
+        cardWrapper.addEventListener('click', () => {
+            if (!tarotCard.classList.contains('flipped')) {
+                tarotCard.classList.add('flipped');
+                selectedCards.push({
+                    ...card,
+                    position: index,
+                    label: labels[index] || ''
+                });
+            }
+        });
+
+        cardsContainer.appendChild(cardWrapper);
+    });
+
+    // Scroll to cards section
+    cardsDisplaySection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 document.addEventListener('DOMContentLoaded', init);
+
 
