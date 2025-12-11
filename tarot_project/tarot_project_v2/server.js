@@ -113,7 +113,7 @@ app.post('/api/analyze', async (req, res) => {
 **スプレッド名:** ${spreadTitle} (${spreadTag})
 **スプレッドの説明:** ${spreadDescription}
 **質問:** ${question}
-**引かれたカード:**${cardInfoText}
+**引かれたカード:**${cardsContextText}
 
 この組み合わせに基づき、タロットカードのリーディング結果を日本語で生成してください。
 引かれたそれぞれのカードについて、その意味と、質問に対するアドバイス、洞察、または結論として、深く、共感的で、簡潔なトーンで記述してください。
