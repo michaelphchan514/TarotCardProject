@@ -72,8 +72,7 @@
             <section class="spread-grid">
                 <!-- Populated by JS -->
             </section>
-            <section class="action-panel" id="actionPanel">
-                <p class="instruction-text">準備ができたらカードを引いてください</p>
+            <section class="action-area" style="text-align: center; margin-top: 40px;">
                 <button id="drawBtn">カードを引く</button>
             </section>
             <section class="cards-display-section" id="cardsDisplaySection" style="display: none;">
@@ -83,13 +82,13 @@
                 <div class="cards-container" id="cardsContainer"></div>
             </section>
 
-            <section class="analysis-panel" id="analysisPanel" style="display: none;">
+            <section class="analysis-panel">
                 <div class="analysis-card">
                     <div class="analysis-card__text">
                         <h3>分析モード</h3>
                         <p>カードが出揃いました。選択したテーマに沿って解釈を表示します。</p>
                     </div>
-                    <button id="analyzeBtn">分析</button>
+                    <button id="analyzeBtn" style="display: none;">分析</button>
                 </div>
                 <div class="analysis-output" id="analysisOutput">
                     <p class="placeholder">ここに読み解き結果が表示されます。</p>
