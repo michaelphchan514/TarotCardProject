@@ -79,6 +79,9 @@ const motionStage = document.getElementById('motionStage');
 const cardsDisplaySection = document.getElementById('cardsDisplaySection');
 const cardsContainer = document.getElementById('cardsContainer');
 const cardsInstructions = document.getElementById('cardsInstructions');
+const actionPanel = document.getElementById('actionPanel');
+const drawBtn = document.getElementById('drawBtn');
+const analysisPanel =document.getElementById('analysisPanel');
 
 let currentQuestionMode = 'custom';
 let currentSpread = spreads[0].id;
@@ -175,25 +178,37 @@ function bindEvents() {
             currentQuestionMode = option.dataset.questionMode;
             presetContainer.classList.toggle('hidden', currentQuestionMode !== 'preset');
             customQuestion.hidden = currentQuestionMode === 'preset';
+            resetReadingState();
         });
     });
 
-    presetSpreadSelect.addEventListener('change', updatePresetQuestions);
+    customQuestion.addEventListener('input', resetReadingState);
 
-    analyzeBtn.addEventListener('click', async () => {
-        const questionText =
-            currentQuestionMode === 'preset'
-                ? presetQuestionSelect.value
-                : customQuestion.value.trim();
+    presetSpreadSelect.addEventListener('change', () => {
+        updatePresetQuestions();
+        resetReadingState();
+    });
 
-        if (!questionText) {
-            analysisOutput.innerHTML = '<p class="placeholder">質問を入力するか選択してください。</p>';
+    presetQuestionSelect.addEventListener('change', resetReadingState);
+
+    drawBtn.addEventListener('click', () => {
+        const questionText = getQestionText();
+
+        if(!questionText){
+            alert('質問を入力するか選択してください。');
             return;
         }
 
-        // Display cards
-        displayCards();
-        
+    displayCards();
+
+    actionPanel.style.display ='none';
+    analysisPanel.style.display = 'grid';
+
+    cardsDisplaySection.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+
+    analyzeBtn.addEventListener('click', async () => {
+        const questionText = getQestionText();
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
 
         // UIを更新し、読み込み中であることを示す
@@ -249,6 +264,42 @@ function bindEvents() {
         } finally {
             analyzeBtn.disabled = false; // ボタンを再有効化
         }
+    });
+}
+
+function getQestionText(){
+    return currentQuestionMode === 'preset'
+    ? presetQuestionSelect.value
+    : customQuestion.value.trim();
+}
+
+function resetReadingState() {
+    cardsDisplaySection.style.display = 'none';
+    analysisPanel.style.display = 'none';
+    actionPanel.style.display = 'block'; // ドローボタンを再表示
+    cardsContainer.innerHTML = '';
+    analysisOutput.innerHTML = '<p class="placeholder">ここに読み解き結果が表示されます。</p>';
+}
+
+// renderSpreads関数も少し修正（クリック時にリセットを入れるため）
+function renderSpreads() {
+    spreadGrid.innerHTML = '';
+    spreads.forEach((spread) => {
+        const card = document.createElement('article');
+        card.className = `spread-card ${spread.id === currentSpread ? 'active' : ''}`;
+        card.dataset.spread = spread.id;
+        card.innerHTML = `
+            <span class="tag">${spread.tag}</span>
+            <h4>${spread.title}</h4>
+            <p>${spread.description}</p>
+        `;
+        card.addEventListener('click', () => {
+            currentSpread = spread.id;
+            renderSpreads();
+            updatePresetQuestions();
+            resetReadingState(); // ★ここでもリセット
+        });
+        spreadGrid.appendChild(card);
     });
 }
 
