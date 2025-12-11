@@ -79,6 +79,7 @@ const motionStage = document.getElementById('motionStage');
 const cardsDisplaySection = document.getElementById('cardsDisplaySection');
 const cardsContainer = document.getElementById('cardsContainer');
 const cardsInstructions = document.getElementById('cardsInstructions');
+const drawBtn = document.getElementById('drawBtn');
 
 let currentQuestionMode = 'custom';
 let currentSpread = spreads[0].id;
@@ -180,7 +181,7 @@ function bindEvents() {
 
     presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
-    analyzeBtn.addEventListener('click', async () => {
+    drawBtn.addEventListener('click', () => {
         const questionText =
             currentQuestionMode === 'preset'
                 ? presetQuestionSelect.value
@@ -191,10 +192,23 @@ function bindEvents() {
             return;
         }
 
+        analysisOutput.innerHTML = '<p class="placeholder">カードをすべてめくって、分析のボタンを押してください。</p>';
+        analyzeBtn.style.display = 'none';
+
         // Display cards
-        displayCards();
-        
+        setupCards();
+
+        cardsDisplaySection.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    
+    analyzeBtn.addEventListener('click', async () => {
+        const questionText = currentQuestionMode === 'preset'
+        ? presetQuestionSelect.value
+        : customQuestion.value.trim();
+
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
+
+        const drawnCardNames = selectedCards.map(c => c.name);
 
         // UIを更新し、読み込み中であることを示す
         analysisOutput.innerHTML = `
@@ -216,6 +230,7 @@ function bindEvents() {
                     spreadTitle: spreadInfo.title,
                     spreadDescription: spreadInfo.description,
                     spreadTag: spreadInfo.tag,
+                    drawnCards: drawnCardNames,
                 }),
             });
 
@@ -273,7 +288,7 @@ function initMotionStage() {
     }
 }
 
-function displayCards() {
+function setupCards() {
     if (!cardsContainer || !cardsDisplaySection) return;
     
     // Determine card count based on spread
@@ -355,6 +370,7 @@ function displayCards() {
                     position: index,
                     label: labels[index] || ''
                 });
+                checkAllFlipped(cardCount);
             }
         });
 
@@ -363,6 +379,17 @@ function displayCards() {
 
     // Scroll to cards section
     cardsDisplaySection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function checkAllFlipped(totalCards){
+    const flippedCards = document.querySelectorAll('.flipable-tarot-card.flipped');
+    if(flippedCards.length === totalCards){
+        analyzeBtn.style.display = 'inline-block';
+
+        setTimeout(() => {
+            document.querySelector('.analysis-panel').scrollIntoView({behavior:'smooth', block:'start'});
+        },500);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
