@@ -253,6 +253,8 @@ function bindEvents() {
                 <p style="color: var(--muted); margin-top: 20px;">このスプレッドでは、<strong>${spreadInfo.description}</strong> という視点で深く読み解くことができます。カードを引きながら、直感で気づいた言葉や感情をメモしてみましょう。</p>
             `;
             analysisOutput.innerHTML = finalMessage;
+           //reading alout the result here by calling the function
+             speak(readingResult);
 
         } catch (error) {
             console.error('分析エラー:', error);
@@ -264,7 +266,10 @@ function bindEvents() {
         } finally {
             analyzeBtn.disabled = false; // ボタンを再有効化
         }
+        
     });
+
+   
 }
 
 function initMotionStage() {
@@ -394,4 +399,38 @@ function checkAllFlipped(totalCards){
 
 document.addEventListener('DOMContentLoaded', init);
 
+
+document.addEventListener('DOMContentLoaded', init);
+
+
+ function speak(text){
+    if(!text) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.6;   
+    utterance.pitch = 1.4;  
+    utterance.volume = 1.0;  
+    utterance.lang = 'ja-JP';
+    speechSynthesis.onvoiceschanged = () => {
+  const voices = speechSynthesis.getVoices();
+  const japaneseVoice = voices.find(voice => voice.lang.startsWith('ja'));
+  
+  if (japaneseVoice) {
+    utterance.voice = japaneseVoice;
+    console.log('Using Japanese voice:', japaneseVoice.name);
+  } else {
+    console.warn('No Japanese voice available');
+  }
+  
+  speechSynthesis.speak(utterance);
+  
+};
+    const voices = speechSynthesis.getVoices();
+    if (voices.length > 0) {
+        const japaneseVoice = voices.find(voice => voice.lang.startsWith('ja'));
+        if (japaneseVoice) {
+            utterance.voice = japaneseVoice;
+        }
+        speechSynthesis.speak(utterance);
+    }
+ }
 
