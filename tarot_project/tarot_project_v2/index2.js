@@ -124,13 +124,71 @@ function loadCards() {
         'Three Of Cups':'three of cups.png',
         'Four Of Cups':'four of cups.png',
         'Five Of Cups':'five of cups.png',
+        'Six Of Cups':'six of cups.png',
+        'Seven Of Cups':'seven of cups.png',
+        'Eight Of Cups':'eight of cups.png',
+        'Nine Of Cups':'nine of cups.png',
+        'Ten Of Cups':'ten of cups.png',
+        'Knight Of Cups':'knight of cups.png',
+        'Page Of Cups':'page of cups.png',
+        'King Of Cups':'king of cups.png',
+        'Queen Of Cups':'queen of cups.png',
+        'Ace Of Pentacles':'ace of pentacles.png',
+        'Two Of Pentacles':"two of pentacles.png",
+        'Three Of Pentacles':"three of pentacles.png",
+        'Four Of Pentacles':'four of pentacles.png',
+        'Five Of Pentacles':"five of pentacles.png",
+        'Six Of Pentacles':'six of pentacles.png',
+        'Seven Of Pentacles':'seven of pentacles.png',
+        'Eight Of Pentacles':'eight of pentacles.png',
+        'Nine Of Pentacles':'nine of pentacles.png',
+        'Ten Of Pentacles':'ten of pentacles.png',
+        'Page Of Pentacles':'page of pentacles.png',
+        'Knight Of Pentacles':'knight of pentacles.png',
+        'King Of Pentacles':'king of pentacles.png',
+        'Queen Of Pentacles':'queen of pentacles.png',
+        'Ace Of Swords':'ace of swords.png',
+        'Two Of Swords':'two of swords.png',
+        'Three Of Swords':"three of swords.png",
+        'Four Of Swords':'four of swords.png',
+        'Five Of Swords':'five of swords.png',
+        'Six Of Swords':'six of swords.png',
+        'Seven Of Swords':'seven of swords.png',
+        'Eight Of Swords':'eight of swords.png',
+        'Nine Of Swords':'nine of swords.png',
+        'Ten Of Swords':'ten of swords.png',
+        'King Of Swords':'king of swords.png',
+        'Queen Of Swords':'queen of swords.png',
+        'Page Of Swords':'page of swords.png',
+        'Knight Of Swords':'knight of swords.png',
+        'Ace Of Wands':'ace of wands.png',
+        'Two Of Wands':'two of wands.png',
+        'Three Of Wands':'three of wands.png',
+        'Four Of Wands':'four of wands.png',
+        'Five Of Wands':'five of wands.png',
+        'Six Of Wands':'six of wands.png',
+        'Seven Of Wands':'seven of wands.png',
+        'Eight Of Wands':'eight of wands.png',
+        'Nine Of Wands':'nine of wands.png',
+        'Ten Of Wands':'ten of wands.png',
+        'Page Of Wands':'page of wands.png',
+        'King Of Wands':'king of wands.png',
+        'Knight Of Wands':'knight of wands.png',
+        'Queen Of Wands':'queen of wands.png',
+        
+
         
     };
 
     const majorArcana = Object.keys(cardFileMap);
     allCards = majorArcana.map(card => ({
         name: card,
-        image: `tarot cards image/Major Arcana/${cardFileMap[card]}`
+        image: [`tarot cards image/Major Arcana/${cardFileMap[card]}`,
+        `tarot cards image/Minor Arcana/Cups/${cardFileMap[card]}`,
+        `tarot cards image/Minor Arcana/pentacles${cardFileMap[card]}`,
+        `tarot cards image/Minor Arcana/swords/${cardFileMap[card]}`,
+        `tarot cards image/Minor Arcana/wands/${cardFileMap[card]}`
+    ]
     }));
 }
 
