@@ -118,7 +118,13 @@ function loadCards() {
         'The Moon': 'the moon.png',
         'The Sun': 'the sun.png',
         'Judgement': 'judgement.png',
-        'The World': 'the world.png'
+        'The World': 'the world.png',
+        'Ace Of Cups':'ace of cups.png',
+        'Two Of Cups':'two of cups.png',
+        'Three Of Cups':'three of cups.png',
+        'Four Of Cups':'four of cups.png',
+        'Five Of Cups':'five of cups.png',
+        
     };
 
     const majorArcana = Object.keys(cardFileMap);
