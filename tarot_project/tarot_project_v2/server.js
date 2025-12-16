@@ -79,23 +79,29 @@ app.post('/api/analyze', async (req, res) => {
     if (drawnCards && drawnCards.length > 0) {
         // 各カードについてCSVデータを検索
         const detailedCards = drawnCards.map(cardName => {
-            // CSVの中から名前が一致する行を探す
-            // ※ CSVのヘッダーが 'Name' であると仮定しています。
-            // ※ もしCSVの列名が日本語（例：'カード名'）の場合は、row['カード名'] に変更してください。
+            const cardName = cardObj.name;
+            const isReversed = cardObj.isReversed;
+            const positionText = isReversed ? "逆位置" : "正位置";
+
             const cardData = tarotDatabase.find(row => 
                 row.カード名 === cardName || row.name === cardName || row['カード'] === cardName
             );
 
             if (cardData) {
-                // CSVが見つかった場合：そのデータの全情報を文字列にする
-                // 特定の列（例: Meaning, Keywordなど）だけ使いたい場合は指定してください
+                let meaning = "";
+                if (isReversed){
+                    meaning = cardData['Reversed'] || cardData['reversed'] || cardData['逆位置'] || cardData['Reverse'] || "（逆位置データなし）";
+                }else {
+                    meaning = cardData['Upright'] || cardData['upright'] || cardData['Meaning'] || cardData['meaning'] || cardData['正位置'] || "（正位置データなし）";
+                }
                 const dataString = Object.entries(cardData)
                     .map(([key, value]) => `${key}: ${value}`)
                     .join(', ');
-                return `【${cardName}】(データベース情報: ${dataString})`;
+                return `【${cardName}】(データベース情報: ${positionText})
+                - この向きの意味: ${meaning}`;
             } else {
                 // 見つからない場合
-                return `【${cardName}】`;
+                return `【${cardName}】(${positionText})`;
             }
         });
 
@@ -109,7 +115,7 @@ app.post('/api/analyze', async (req, res) => {
 質問者から以下の「質問」と「スプレッド」が提示されました。また、ユーザーは既にカードを引いています。
 必ずこの「質問」と「スプレッド」と「引かれたカード」の組み合わせに基づき、タロットカードのリーディング結果を日本語で生成してください。
 勝手に別のカードを選ばないでください。
-各カードについて、シンボルの意味、洞察、そしてそのカードが示す暗示を詳しくて説明してください。また、ユーザーが安
+各カードについて、シンボルの意味、洞察、そしてそのカードが示す暗示を詳しくて説明してください。「この向きの意味」として提供されたテキストをまた、ユーザーが安
 心し、支えられていると感じられるように、共感的な語り口でアドバイスを添えてください。状況にどう向き合い、どのよう
 に進んでいけばよいかが分かるような、適切な導きを与えることが求められます。
 
