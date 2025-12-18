@@ -538,4 +538,38 @@ footer {
         gap: 20px;
     }
 }
+/* --- ここから追加するCSS --- */
 
+/* カード全体を包む枠：縦並びを強制 */
+.card-wrapper {
+    display: flex !important;       /* フレックスボックスを使用 */
+    flex-direction: column !important; /* 縦方向に並べる */
+    align-items: center !important;    /* 中央揃え */
+    justify-content: flex-start !important;
+    height: auto !important;        /* 中身に合わせて高さを自動調整 */
+    margin-bottom: 20px;            /* 下の要素との間隔 */
+    position: relative;
+}
+
+/* カード本体：絶対配置(absolute)を解除し、場所を確保させる */
+.flipable-tarot-card {
+    position: relative !important;  /* 重要：ここをrelativeにしないと重なります */
+    flex-shrink: 0 !important;      /* 縦並びになってもカードが潰れないようにする */
+    margin: 0 auto !important;      /* 中央配置 */
+    width: 150px;
+    height: 260px;
+    /* もしカードのサイズがおかしくなる場合は、ここにサイズを指定してください */
+    /* 例: width: 150px; height: 260px; */
+}
+
+/* カードの下の文字エリア */
+.card-label {
+    margin-top: 15px !important;    /* カードとの間に15pxの隙間を作る */
+    position: relative !important;
+    z-index: 10;                    /* カードより手前に表示 */
+    text-align: center;
+    width: 100%;
+    pointer-events: none;           /* 文字がクリックの邪魔をしないように */
+}
+
+/* --- ここまで --- */
