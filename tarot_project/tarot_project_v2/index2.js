@@ -254,7 +254,10 @@ function bindEvents() {
 
         const spreadInfo = spreads.find((spread) => spread.id === currentSpread);
 
-        const drawnCardNames = selectedCards.map(c => c.name);
+        const drawnCardsData = selectedCards.map(c => ({
+            name: c.name,
+            isReversed: c.isReversed
+    }));
 
         // UIを更新し、読み込み中であることを示す
         analysisOutput.innerHTML = `
@@ -276,7 +279,7 @@ function bindEvents() {
                     spreadTitle: spreadInfo.title,
                     spreadDescription: spreadInfo.description,
                     spreadTag: spreadInfo.tag,
-                    drawnCards: drawnCardNames,
+                    drawnCards: drawnCardsData,
                 }),
             });
 
@@ -431,12 +434,19 @@ function setupCards() {
         cardWrapper.addEventListener('click', () => {
             if (!tarotCard.classList.contains('flipped')) {
                 tarotCard.classList.add('flipped');
+                const isReversed = Math.random() < 0.5;
+                if(isReversed){
+                    img.style.transform = 'rotate(180deg)';
+                }
+                const positionStr = isReversed ? '(逆位置)' : '(正位置)';
+                nameText.textContent = (card.japaneseName || card.name) + positionStr;
                 nameText.style.visibility = 'visible';
                 nameText.style.opacity = '1';
                 selectedCards.push({
                     ...card,
                     position: index,
-                    label: labels[index] || ''
+                    label: labels[index] || '',
+                    isReversed: isReversed
                 });
                 checkAllFlipped(cardCount);
             }
