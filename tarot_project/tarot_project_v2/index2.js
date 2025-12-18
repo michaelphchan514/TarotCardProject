@@ -26,7 +26,7 @@ const spreads = [
     {
         id: 'personality',
         title: '性格診断',
-        description: '本質・強み・課題の3層で自分を理解する。',
+        description: '本質・強み・課題(弱み)の3層で自分を理解する。',
         tag: 'Archetype',
     },
 ];
@@ -69,7 +69,6 @@ const presetQuestions = {
 
 const questionOptions = document.querySelectorAll('.question-option');
 const presetContainer = document.getElementById('presetContainer');
-const presetSpreadSelect = document.getElementById('presetSpread');
 const presetQuestionSelect = document.getElementById('presetQuestion');
 const customQuestion = document.getElementById('customQuestion');
 const spreadGrid = document.querySelector('.spread-grid');
@@ -91,7 +90,6 @@ async function init() {
     loadCards();
     await fetchCardData();
     renderSpreads();
-    populateSpreadOptions();
     bindEvents();
     updatePresetQuestions();
 }
@@ -148,8 +146,8 @@ function loadCards() {
     
     allCards = majorArcana.map(card => ({
         name: card,
-        image: `tarot cards image/Major Arcana/${majorCardFileMap[card]}`
-    
+        image: `tarot cards image/Major Arcana/${majorCardFileMap[card]}`,
+        isMajor: true
     }));
 
 
@@ -195,22 +193,8 @@ function renderSpreads() {
     });
 }
 
-function populateSpreadOptions() {
-    presetSpreadSelect.innerHTML = Object.entries({
-        one: 'ワンオラクル',
-        three: 'スリーカード',
-        celtic: 'ケルト十字',
-        yesno: 'イエス・ノー',
-        personality: '性格診断',
-    })
-        .map(([value, label]) => `<option value="${value}">${label}</option>`)
-        .join('');
-}
-
 function updatePresetQuestions() {
-    const targetSpread = presetSpreadSelect.value || currentSpread;
-    presetSpreadSelect.value = targetSpread;
-    const options = presetQuestions[targetSpread] || [];
+    const options = presetQuestions[currentSpread] || [];
     presetQuestionSelect.innerHTML = options.map((q) => `<option value="${q}">${q}</option>`).join('');
 }
 
@@ -224,8 +208,6 @@ function bindEvents() {
             customQuestion.hidden = currentQuestionMode === 'preset';
         });
     });
-
-    presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
     drawBtn.addEventListener('click', () => {
         const questionText =
@@ -349,7 +331,7 @@ function setupCards() {
     let cardCount = 1;
     if (currentSpread === 'three') cardCount = 3;
     if (currentSpread === 'celtic') cardCount = 10;
-    if (currentSpread === 'yesno') cardCount = 3;
+    if (currentSpread === 'yesno') cardCount = 2;
     if (currentSpread === 'personality') cardCount = 3;
 
     // Show cards section
@@ -357,15 +339,22 @@ function setupCards() {
     cardsContainer.innerHTML = '';
     selectedCards = [];
 
+    // If it's personality, we only take cards where the image path contains 'Major Arcana'
+    let availablePool = [...allCards];
+    
+    if (currentSpread === 'personality') {
+        availablePool = allCards.filter(card => card.image.includes('Major Arcana'));
+    }
+
     // Shuffle cards
-    const shuffled = [...allCards].sort(() => Math.random() - 0.5);
+    const shuffled = availablePool.sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, cardCount);
 
     // Label mapping
     const labelMap = {
         three: ['過去', '現在', '未来'],
-        yesno: ['エネルギー', '行動', '結果'],
-        personality: ['本質', '強み', '課題'],
+        yesno: ['Yes', 'No'],
+        personality: ['本質', '強み', '課題(弱み)'],
         celtic: [
             '現在の状況', '課題', '遠い過去', '最近の過去',
             '可能な未来', '近い未来', 'あなたのアプローチ', '外部の影響',
@@ -506,4 +495,10 @@ document.addEventListener('DOMContentLoaded', init);
         speechSynthesis.speak(utterance);
     }
  }
+ document.getElementById('resetBtn').addEventListener('click', function(){
+    const isConfirmed = confirm("現在の内容をリセットしますか？");
+    if(isConfirmed){
+        location.reload();
+    }
+ })
 
