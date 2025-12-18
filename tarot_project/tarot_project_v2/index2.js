@@ -365,7 +365,7 @@ function setupCards() {
     }
 
     // Shuffle cards
-    const shuffled = [...allCards].sort(() => Math.random() - 0.5);
+    const shuffled = availablePool.sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, cardCount);
 
     // Label mapping
