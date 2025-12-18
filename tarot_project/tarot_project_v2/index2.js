@@ -26,7 +26,7 @@ const spreads = [
     {
         id: 'personality',
         title: '性格診断',
-        description: '本質・強み・課題の3層で自分を理解する。',
+        description: '本質・強み・課題(弱み)の3層で自分を理解する。',
         tag: 'Archetype',
     },
 ];
@@ -349,7 +349,7 @@ function setupCards() {
     let cardCount = 1;
     if (currentSpread === 'three') cardCount = 3;
     if (currentSpread === 'celtic') cardCount = 10;
-    if (currentSpread === 'yesno') cardCount = 3;
+    if (currentSpread === 'yesno') cardCount = 2;
     if (currentSpread === 'personality') cardCount = 3;
 
     // Show cards section
@@ -371,8 +371,8 @@ function setupCards() {
     // Label mapping
     const labelMap = {
         three: ['過去', '現在', '未来'],
-        yesno: ['エネルギー', '行動', '結果'],
-        personality: ['本質', '強み', '課題'],
+        yesno: ['Yes', 'No'],
+        personality: ['本質', '強み', '課題(弱み)'],
         celtic: [
             '現在の状況', '課題', '遠い過去', '最近の過去',
             '可能な未来', '近い未来', 'あなたのアプローチ', '外部の影響',
