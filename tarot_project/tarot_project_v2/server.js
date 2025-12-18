@@ -138,6 +138,7 @@ app.post('/api/analyze', async (req, res) => {
 **スプレッド名:** ${spreadTitle} (${spreadTag})
 **スプレッドの説明:** ${spreadDescription}
 **質問:** ${question}
+**引かれたカード**${cardsContextText}
 `;
 
         const response = await ai.models.generateContent({
