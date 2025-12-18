@@ -119,7 +119,7 @@ async function fetchCardData() {
 }
 function loadCards() {
     // Load Major Arcana cards - mapping card names to actual filenames
-    const cardFileMap = {
+    const majorCardFileMap = {
         'The Fool': 'The Fool.png',
         'The Magician': 'the magician.png',
         'The PriestessHigh': 'the high priestess.png',
@@ -144,13 +144,37 @@ function loadCards() {
         'The World': 'the world.png'
     };
 
-    const majorArcana = Object.keys(cardFileMap);
+    const majorArcana = Object.keys(majorCardFileMap);
+    
     allCards = majorArcana.map(card => ({
         name: card,
-        image: `tarot cards image/Major Arcana/${cardFileMap[card]}`
+        image: `tarot cards image/Major Arcana/${majorCardFileMap[card]}`
+    
     }));
-}
 
+
+
+
+const suits = ['wands', 'cups', 'swords', 'pentacles'];
+    const ranks = [
+        'ace', 'two', 'three', 'four', 'five', 'six', 'seven', 
+        'eight', 'nine', 'ten', 
+        'page', 'knight', 'queen', 'king'
+    ];
+suits.forEach(suit => {
+        ranks.forEach(rank => {
+            const cardName = `${rank} of ${suit}`; 
+            const fileName = `${cardName}.png`; // Assume file names match card names
+            
+            const minorCard = {
+                name: cardName,
+                image: `tarot cards image/Minor Arcana/${suit}/${fileName}`
+            };
+            
+            allCards.push(minorCard);
+        });
+    });
+}
 function renderSpreads() {
     spreadGrid.innerHTML = '';
     spreads.forEach((spread) => {
