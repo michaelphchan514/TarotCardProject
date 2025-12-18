@@ -86,21 +86,43 @@ let currentSpread = spreads[0].id;
 let allCards = [];
 let selectedCards = [];
 
-function init() {
+async function init() {
     initMotionStage();
     loadCards();
+    await fetchCardData();
     renderSpreads();
     populateSpreadOptions();
     bindEvents();
     updatePresetQuestions();
 }
 
+async function fetchCardData() {
+    try{
+        const response = await fetch('/api/cards');
+        const dbData = await response.json();
+        allCards.forEach(card =>{
+            const match = dbData.find(row =>{
+                const values = Object.values(row);
+                const csvName = row['カード名'] || values[0];
+                return csvName && csvName.trim() === card.name;
+            });
+            if(match){
+                card.japaneseName = match['日本語'] || Object.values(match)[1] || card.name;
+            }else{
+                card.japaneseName = card.name;
+            }
+        });
+        console.log("カードデータの統合完了:", allCards);
+    }catch (error){
+        console.error("カードデータ取得に失敗しました。:", error);
+    }    
+}
 function loadCards() {
     // Load Major Arcana cards - mapping card names to actual filenames
     const cardFileMap = {
         'The Fool': 'The Fool.png',
         'The Magician': 'the magician.png',
-        'The High Priestess': 'the high priestess.png',
+        'The PriestessHigh': 'the high priestess.png',
         'The Empress': 'the empress.png',
         'The Emperor': 'the emperor.png',
         'The Hierophant': 'the hierophant.png',
@@ -357,19 +379,36 @@ function setupCards() {
         tarotCard.appendChild(cardFront);
 
         // Card label
-        const label = document.createElement('div');
-        label.className = 'card-label';
+        const labelContainer = document.createElement('div');
+        labelContainer.className = 'card-label';
         if (labels[index]) {
-            label.textContent = labels[index];
+            const positionText = document.createElement('div');
+            positionText.textContent = labels[index];
+            positionText.style.fontSize = '0.9em';
+            positionText.style.opacity = '0.8';
+            positionText.style.marginBottom = '5px';
+            labelContainer.appendChild(positionText);
         }
 
+        const nameText = document.createElement('div');
+        nameText.textContent = card.japaneseName || card.name;
+        nameText.style.fontWeight = 'bold';
+        nameText.style.fontSize = '1.1em';
+        nameText.style.color = '#fff';
+        nameText.style.visibility = 'hidden';
+        nameText.style.transition = 'opacity 0.5s';
+        nameText.style.opacity = '0';
+        labelContainer.appendChild(nameText);
+
         cardWrapper.appendChild(tarotCard);
-        cardWrapper.appendChild(label);
+        cardWrapper.appendChild(labelContainer);
 
         // Click to flip
         cardWrapper.addEventListener('click', () => {
             if (!tarotCard.classList.contains('flipped')) {
                 tarotCard.classList.add('flipped');
+                nameText.style.visibility = 'visible';
+                nameText.style.opacity = '1';
                 selectedCards.push({
                     ...card,
                     position: index,

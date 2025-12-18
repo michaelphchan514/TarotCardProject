@@ -2,11 +2,11 @@
 import 'dotenv/config'; // .envファイルを読み込む
 import express from 'express';
 import { GoogleGenAI } from '@google/genai';
-import path, { resolve } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import csv from 'csv-parser';
-import { rejects } from 'assert';
+
 
 // ESモジュール環境で __dirname を再定義
 const __filename = fileURLToPath(import.meta.url);
@@ -24,37 +24,39 @@ if (!GEMINI_API_KEY) {
 
 // Gemini AI クライアントの初期化
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-const model = 'gemini-2.5-flash'; 
+const model = 'gemini-2.5-flash';
 
 // ミドルウェア
 app.use(express.json()); // リクエストボディをJSONとしてパース
 // 静的ファイルをホスト
-app.use(express.static(path.join(__dirname))); 
+app.use(express.static(path.join(__dirname)));
 
 const tarotDatabase = [];
 
-const CSV_FILE_PATH = path.join(__dirname,'tarot_data.csv');
+const CSV_FILE_PATH = path.join(__dirname, 'tarot_data.csv');
 
-function loadTarotData(){
-    return new Promise((resolve, reject) =>{
+function loadTarotData() {
+    return new Promise((resolve, reject) => {
         const results = [];
-        if(!fs.existsSync(CSV_FILE_PATH)){
+        if (!fs.existsSync(CSV_FILE_PATH)) {
             console.warn('警告: ${CSV_FILE_PATH} が見つかりません。通常のAI解釈のみで動作します。');
             resolve([]);
             return;
         }
 
         fs.createReadStream(CSV_FILE_PATH)
-        .pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', () => {
-            console.log('CSV読み込み完了: ${results.length}枚のカードデータをロードしました。');
-            if(results.length > 0){
-                console.log('データサンプル:', results[0]);
-            }
-            resolve(results);
-        })
-        .on('error', (err) => reject(err));
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => {
+                console.log(`CSV読み込み完了: ${results.length}枚のカードデータをロードしました。`);
+                if (results.length > 0) {
+                    const firstRowKeys = Object.keys(results[0]);
+                    console.log('検出された列名(Keys):', firstRowKeys);
+                    console.log('データサンプル:', results[0]);
+                }
+                resolve(results);
+            })
+            .on('error', (err) => reject(err));
     });
 }
 
@@ -66,6 +68,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index2.html'));
 });
 
+app.get('/api/cards', (req,res) => {
+    res.json(tarotDatabase);
+})
+
 // 🌟 APIプロキシエンドポイント
 app.post('/api/analyze', async (req, res) => {
     const { question, spreadTitle, spreadDescription, spreadTag, drawnCards } = req.body;
@@ -75,27 +81,32 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     let cardsContextText = "";
-    
+
     if (drawnCards && drawnCards.length > 0) {
+        console.log("引かれたカード:", drawnCards);
         // 各カードについてCSVデータを検索
-        const detailedCards = drawnCards.map(cardName => {
+        const detailedCards = drawnCards.map(drawnCardName => {
             // CSVの中から名前が一致する行を探す
-            // ※ CSVのヘッダーが 'Name' であると仮定しています。
-            // ※ もしCSVの列名が日本語（例：'カード名'）の場合は、row['カード名'] に変更してください。
-            const cardData = tarotDatabase.find(row => 
-                row.カード名 === cardName || row.name === cardName || row['カード'] === cardName
-            );
+            const cardData = tarotDatabase.find(row => {
+                const values = Object.values(row);
+                const nameInCsv = row['カード名'] || row['Name'] || values[0];
+                return nameInCsv && nameInCsv.trim() === drawnCardName.trim();
+            });
 
             if (cardData) {
                 // CSVが見つかった場合：そのデータの全情報を文字列にする
                 // 特定の列（例: Meaning, Keywordなど）だけ使いたい場合は指定してください
+                const officialName = cardData['カード名'] || Object.values(cardData)[0] || drawnCardName;
                 const dataString = Object.entries(cardData)
-                    .map(([key, value]) => `${key}: ${value}`)
+                    .map(([key, value]) => {
+                        const cleanKey = key.trim().replace(/^\ufeff/, '');
+                        return `${cleanKey}: ${value}`;
+                    })
                     .join(', ');
-                return `【${cardName}】(データベース情報: ${dataString})`;
+                return `【${officialName}】\n(CSVデータベース情報: ${dataString})`;
             } else {
-                // 見つからない場合
-                return `【${cardName}】`;
+                console.log(`警告:CSV内に'${drawnCardName}'が見つかりませんでした。`);
+                return `【${drawnCardName}】(データベース情報なし)`;
             }
         });
 
@@ -113,6 +124,7 @@ app.post('/api/analyze', async (req, res) => {
 各カードについて、シンボルの意味、洞察、そしてそのカードが示す暗示を詳しくて説明してください。また、ユーザーが安
 心し、支えられていると感じられるように、共感的な語り口でアドバイスを添えてください。状況にどう向き合い、どのよう
 に進んでいけばよいかが分かるような、適切な導きを与えることが求められます。
+また、カードの名前は、CSVデータにある日本語名を使用してください。
 約100～200字程度で書いてください。
 
 **スプレッド名:** ${spreadTitle} (${spreadTag})
