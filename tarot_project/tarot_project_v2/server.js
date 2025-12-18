@@ -85,7 +85,10 @@ app.post('/api/analyze', async (req, res) => {
     if (drawnCards && drawnCards.length > 0) {
         console.log("引かれたカード:", drawnCards);
         // 各カードについてCSVデータを検索
-        const detailedCards = drawnCards.map(drawnCardName => {
+        const detailedCards = drawnCards.map(cardInfo => {
+            const drawnCardName = cardInfo.name;
+            const isReversed = cardInfo.isReversed;
+            const positionLabel = isReversed ? "【逆位置】" : "【正位置】";  
             // CSVの中から名前が一致する行を探す
             const cardData = tarotDatabase.find(row => {
                 const values = Object.values(row);
@@ -97,14 +100,13 @@ app.post('/api/analyze', async (req, res) => {
                 // CSVが見つかった場合：そのデータの全情報を文字列にする
                 // 特定の列（例: Meaning, Keywordなど）だけ使いたい場合は指定してください
                 const officialName = cardData['カード名'] || Object.values(cardData)[0] || drawnCardName;
-                const dataString = Object.entries(cardData)
-                    .map(([key, value]) => {
-                        const cleanKey = key.trim().replace(/^\ufeff/, '');
-                        return `${cleanKey}: ${value}`;
-                    })
-                    .join(', ');
-                return `【${officialName}】\n(CSVデータベース情報: ${dataString})`;
-            } else {
+                const specificMeaning = isReversed ? cardData['逆位置'] : cardData['正位置'];
+                const keyword = cardData['キーワード'];
+                return `カード名: ${officialName} ${positionLabel}\n` +
+                       `キーワード: ${keyword}\n` +
+                       `この配置での意味: ${specificMeaning}\n` +
+                       `--------------------------------`;
+            }else{
                 console.log(`警告:CSV内に'${drawnCardName}'が見つかりませんでした。`);
                 return `【${drawnCardName}】(データベース情報なし)`;
             }
