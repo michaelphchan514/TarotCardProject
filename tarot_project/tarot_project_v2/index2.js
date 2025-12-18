@@ -482,4 +482,10 @@ document.addEventListener('DOMContentLoaded', init);
         speechSynthesis.speak(utterance);
     }
  }
+ document.getElementById('resetBtn').addEventListener('click', function(){
+    const isConfirmed = confirm("現在の内容をリセットしますか？");
+    if(isConfirmed){
+        location.reload();
+    }
+ })
 
