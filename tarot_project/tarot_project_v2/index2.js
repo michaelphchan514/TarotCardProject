@@ -69,7 +69,6 @@ const presetQuestions = {
 
 const questionOptions = document.querySelectorAll('.question-option');
 const presetContainer = document.getElementById('presetContainer');
-const presetSpreadSelect = document.getElementById('presetSpread');
 const presetQuestionSelect = document.getElementById('presetQuestion');
 const customQuestion = document.getElementById('customQuestion');
 const spreadGrid = document.querySelector('.spread-grid');
@@ -91,7 +90,6 @@ async function init() {
     loadCards();
     await fetchCardData();
     renderSpreads();
-    populateSpreadOptions();
     bindEvents();
     updatePresetQuestions();
 }
@@ -171,22 +169,8 @@ function renderSpreads() {
     });
 }
 
-function populateSpreadOptions() {
-    presetSpreadSelect.innerHTML = Object.entries({
-        one: 'ワンオラクル',
-        three: 'スリーカード',
-        celtic: 'ケルト十字',
-        yesno: 'イエス・ノー',
-        personality: '性格診断',
-    })
-        .map(([value, label]) => `<option value="${value}">${label}</option>`)
-        .join('');
-}
-
 function updatePresetQuestions() {
-    const targetSpread = presetSpreadSelect.value || currentSpread;
-    presetSpreadSelect.value = targetSpread;
-    const options = presetQuestions[targetSpread] || [];
+    const options = presetQuestions[currentSpread] || [];
     presetQuestionSelect.innerHTML = options.map((q) => `<option value="${q}">${q}</option>`).join('');
 }
 
@@ -200,8 +184,6 @@ function bindEvents() {
             customQuestion.hidden = currentQuestionMode === 'preset';
         });
     });
-
-    presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
     drawBtn.addEventListener('click', () => {
         const questionText =
