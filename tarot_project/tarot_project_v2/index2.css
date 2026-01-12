@@ -588,3 +588,35 @@ footer {
 #resetBtn:hover{
     background-color: #444;
 }
+.audio-control-bar {
+    display: flex;
+    justify-content: flex-end; /* 右寄せにする（中央がいい場合は center に変更） */
+    margin-top: -30px;         /* Heroのマージンを少し打ち消して近づける */
+    margin-bottom: 30px;       /* 下のセクションとの間隔 */
+    padding: 0 10px;
+}
+.voice-btn {
+    background: rgba(255, 255, 255, 0.1); /* 背景になじむ半透明 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 24px;         /* 少し小さめでスタイリッシュに */
+    font-size: 0.9rem;
+    color: var(--muted);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: none;          /* デフォルトの強い影を消す */
+}
+.voice-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+.voice-btn.active {
+    background: linear-gradient(135deg, var(--primary-strong), var(--primary));
+    color: var(--white);
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(139, 107, 164, 0.4);
+}
