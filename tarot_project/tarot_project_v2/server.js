@@ -85,7 +85,10 @@ app.post('/api/analyze', async (req, res) => {
     if (drawnCards && drawnCards.length > 0) {
         console.log("引かれたカード:", drawnCards);
         // 各カードについてCSVデータを検索
-        const detailedCards = drawnCards.map(drawnCardName => {
+        const detailedCards = drawnCards.map(cardInfo => {
+            const drawnCardName = cardInfo.name;
+            const isReversed = cardInfo.isReversed;
+            const positionLabel = isReversed ? "【逆位置】" : "【正位置】";  
             // CSVの中から名前が一致する行を探す
             const cardData = tarotDatabase.find(row => {
                 const values = Object.values(row);
@@ -97,14 +100,13 @@ app.post('/api/analyze', async (req, res) => {
                 // CSVが見つかった場合：そのデータの全情報を文字列にする
                 // 特定の列（例: Meaning, Keywordなど）だけ使いたい場合は指定してください
                 const officialName = cardData['カード名'] || Object.values(cardData)[0] || drawnCardName;
-                const dataString = Object.entries(cardData)
-                    .map(([key, value]) => {
-                        const cleanKey = key.trim().replace(/^\ufeff/, '');
-                        return `${cleanKey}: ${value}`;
-                    })
-                    .join(', ');
-                return `【${officialName}】\n(CSVデータベース情報: ${dataString})`;
-            } else {
+                const specificMeaning = isReversed ? cardData['逆位置'] : cardData['正位置'];
+                const keyword = cardData['キーワード'];
+                return `カード名: ${officialName} ${positionLabel}\n` +
+                       `キーワード: ${keyword}\n` +
+                       `この配置での意味: ${specificMeaning}\n` +
+                       `--------------------------------`;
+            }else{
                 console.log(`警告:CSV内に'${drawnCardName}'が見つかりませんでした。`);
                 return `【${drawnCardName}】(データベース情報なし)`;
             }
@@ -128,16 +130,23 @@ app.post('/api/analyze', async (req, res) => {
 質問者から以下の「質問」と「スプレッド」が提示されました。また、ユーザーは既にカードを引いています。
 必ずこの「質問」と「スプレッド」と「引かれたカード」の組み合わせに基づき、リーディングを行ってください。
 勝手に別のカードを選ばないでください。
+
+【重要】出力形式について:
+- 読みやすさを重視し、各セクションやカードの解説の間には必ず「改行コード」を入れてください。
+- カード名の見出しや重要なキーワードはMarkdown（太字など）を使って強調してください。
+- 全体で一つの塊にせず、適度に段落を分けてください
+- カードの名前は、日本語名を参照してください。
+
 タロットカードのリーディング結果を日本語で生成してください。
 各カードについて、シンボルの意味、洞察、そしてそのカードが示す暗示を詳しくて説明してください。また、ユーザーが安
 心し、支えられていると感じられるように、共感的な語り口でアドバイスを添えてください。状況にどう向き合い、どのよう
 に進んでいけばよいかが分かるような、適切な導きを与えることが求められます。
-また、カードの名前は、CSVデータにある日本語名を使用してください。
-
+約200～500字程度で書いてください。
 
 **スプレッド名:** ${spreadTitle} (${spreadTag})
 **スプレッドの説明:** ${spreadDescription}
 **質問:** ${question}
+**引かれたカード**${cardsContextText}
 `;
 
         const response = await ai.models.generateContent({
