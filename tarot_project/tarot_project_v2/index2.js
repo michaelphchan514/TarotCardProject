@@ -219,7 +219,6 @@ function bindEvents() {
                 : customQuestion.value.trim();
 
         if (!questionText) {
-            alert("質問を選択してください。");
            customQuestion.focus();
             return;
         }
