@@ -212,13 +212,16 @@ function bindEvents() {
     });
 
     drawBtn.addEventListener('click', () => {
+        window.speechSynthesis.cancel();
         const questionText =
             currentQuestionMode === 'preset'
                 ? presetQuestionSelect.value
                 : customQuestion.value.trim();
 
         if (!questionText) {
-            analysisOutput.innerHTML = '<p class="placeholder">質問を入力するか選択してください。</p>';
+            questionError.style.display ='block';
+            customQuestion.style.borderColor = 'var(--accent-strong)';
+           customQuestion.focus();
             return;
         }
 
