@@ -18,13 +18,13 @@
                 <div class="blur blur--three"></div>
             </div>
             <div class="hero__content">
-                <div class="hero__icon">
-                    <span>⌂</span>
-                </div>
                 <div class="hero__text">
-                    <p class="hero__eyebrow">TAROT APPLICATION</p>
-                    <h1>タロットの世界へようこそ</h1>
+                    <center>
+                     <h1 class="hero__eyebrow">AIrcana</h1>
+                    
+                    <h2>タロットの世界へようこそ</h2>
                     <p class="hero__subtitle">タロットをクリックしてスタート – 自分の質問を入力するか、参考質問から選んでください。</p>
+                    </center>
                 </div>
                 <div class="hero__card-stack">
                     <div class="tarot-card card--back"></div>
@@ -32,7 +32,10 @@
                 </div>
             </div>
         </header>
-
+        
+        <div class="audo-control-bar">
+            <button id="voiceToggleBtn" type="button" class="voicebtn">🔇 読み上げ: OFF</button>
+        </div>
         <section class="motion-section">
             <div class="motion-section__text">
                 <h2>タロットカードの魅力を感じましょう</h2>
@@ -42,6 +45,7 @@
         </section>
 
         <main>
+            <label>どちらかを選んで下さい：</label>
             <section class="question-switcher">
                 <div class="question-option active" data-question-mode="custom">
                     <h3>自分で入力する質問</h3>
@@ -54,14 +58,8 @@
             </section>
 
             <section class="question-panel">
-                <label for="customQuestion">どちらかを選んで下さい：</label>
                 <textarea id="customQuestion" placeholder="例：今日の私に必要な心がけは？"></textarea>
-
                 <div class="preset-container hidden" id="presetContainer">
-                    <div class="preset-group">
-                        <label for="presetSpread">スプレッドを選択：</label>
-                        <select id="presetSpread"></select>
-                    </div>
                     <div class="preset-group">
                         <label for="presetQuestion">参考質問：</label>
                         <select id="presetQuestion"></select>
@@ -101,12 +99,12 @@
                     <p class="placeholder">ここに読み解き結果が表示されます。</p>
                 </div>
             </section>
+            <div class="footer-actions">
+                <button id="resetBtn" type="button">デフォルトに戻す</button>
+            </div> 
         </main>
 
-        <footer>
-            <p>© Tarot Application – Guidance & Reflection</p>
-        </footer>
-    </div>
+
 
     <script src="index2.js"></script>
 </body>
