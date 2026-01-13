@@ -212,13 +212,15 @@ function bindEvents() {
     });
 
     drawBtn.addEventListener('click', () => {
+        window.speechSynthesis.cancel();
         const questionText =
             currentQuestionMode === 'preset'
                 ? presetQuestionSelect.value
                 : customQuestion.value.trim();
 
         if (!questionText) {
-            analysisOutput.innerHTML = '<p class="placeholder">質問を入力するか選択してください。</p>';
+            alert("質問を選択してください。");
+           customQuestion.focus();
             return;
         }
 

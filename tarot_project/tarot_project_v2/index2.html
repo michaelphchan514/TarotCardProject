@@ -30,9 +30,6 @@
             </div>
         </header>
         
-        <div class="audo-control-bar">
-            <button id="voiceToggleBtn" type="button" class="voicebtn">🔇 読み上げ: OFF</button>
-        </div>
         <section class="motion-section">
             <div class="motion-section__text">
                 <h2>タロットカードの魅力を感じましょう</h2>
@@ -56,6 +53,7 @@
 
             <section class="question-panel">
                 <textarea id="customQuestion" placeholder="例：今日の私に必要な心がけは？"></textarea>
+                <p id="questionError"
                 <div class="preset-container hidden" id="presetContainer">
                     <div class="preset-group">
                         <label for="presetQuestion">参考質問：</label>
@@ -92,6 +90,9 @@
                     </div>
                     <button id="analyzeBtn" style="display: none;">分析</button>
                 </div>
+                <div class="audo-control-bar">
+            <button id="voiceToggleBtn" type="button" class="voicebtn">🔇 読み上げ: OFF</button>
+        </div>
                 <div class="analysis-output" id="analysisOutput">
                     <p class="placeholder">ここに読み解き結果が表示されます。</p>
                 </div>
@@ -100,10 +101,6 @@
                 <button id="resetBtn" type="button">デフォルトに戻す</button>
             </div> 
         </main>
-
-        <footer>
-            <p>© Tarot Application – Guidance & Reflection</p>
-        </footer>
 
     <script src="index2.js"></script>
 </body>
