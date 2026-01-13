@@ -219,6 +219,8 @@ function bindEvents() {
                 : customQuestion.value.trim();
 
         if (!questionText) {
+            questionError.style.display ='block';
+            customQuestion.style.borderColor = 'var(--accent-strong)';
            customQuestion.focus();
             return;
         }
