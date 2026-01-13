@@ -2,31 +2,31 @@ const spreads = [
     {
         id: 'one',
         title: 'ワンオラクル',
-        description: '一枚引きで今日の指針やテーマを簡潔に読み解く。',
+        description: '一枚引きで今日の指針やテーマを簡潔に読み解く',
         tag: '1 Card',
     },
     {
         id: 'three',
         title: 'スリーカード',
-        description: '過去・現在・未来など三つの視点で状況を整理。',
+        description: '過去・現在・未来など三つの視点で状況を整理する。',
         tag: '3 Cards',
     },
     {
         id: 'celtic',
         title: 'ケルト十字',
-        description: '課題の核心から将来の見通しまでを包括的に分析。',
+        description: '課題の核心から将来の見通しまでを包括的に分析する',
         tag: '10 Cards',
     },
     {
         id: 'yesno',
         title: 'イエス・ノー',
-        description: '迷いに対して「進むべきかどうか」の感触を探る。',
+        description: '迷いに対して「進むべきかどうか」の感触を探る',
         tag: 'Yes / No',
     },
     {
         id: 'personality',
         title: '性格診断',
-        description: '本質・強み・課題(弱み)の3層で自分を理解する。',
+        description: '本質・強み・課題(弱み)の3層で自分を理解する',
         tag: 'Archetype',
     },
 ];
