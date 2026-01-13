@@ -69,7 +69,6 @@ const presetQuestions = {
 
 const questionOptions = document.querySelectorAll('.question-option');
 const presetContainer = document.getElementById('presetContainer');
-const presetSpreadSelect = document.getElementById('presetSpread');
 const presetQuestionSelect = document.getElementById('presetQuestion');
 const customQuestion = document.getElementById('customQuestion');
 const spreadGrid = document.querySelector('.spread-grid');
@@ -80,18 +79,19 @@ const cardsDisplaySection = document.getElementById('cardsDisplaySection');
 const cardsContainer = document.getElementById('cardsContainer');
 const cardsInstructions = document.getElementById('cardsInstructions');
 const drawBtn = document.getElementById('drawBtn');
+const voiceToggleBtn = document.getElementById('voiceToggleBtn');
 
 let currentQuestionMode = 'custom';
 let currentSpread = spreads[0].id;
 let allCards = [];
 let selectedCards = [];
+let isVoiceEnabled = false;
 
 async function init() {
     initMotionStage();
     loadCards();
     await fetchCardData();
     renderSpreads();
-    populateSpreadOptions();
     bindEvents();
     updatePresetQuestions();
 }
@@ -195,22 +195,8 @@ function renderSpreads() {
     });
 }
 
-function populateSpreadOptions() {
-    presetSpreadSelect.innerHTML = Object.entries({
-        one: 'ワンオラクル',
-        three: 'スリーカード',
-        celtic: 'ケルト十字',
-        yesno: 'イエス・ノー',
-        personality: '性格診断',
-    })
-        .map(([value, label]) => `<option value="${value}">${label}</option>`)
-        .join('');
-}
-
 function updatePresetQuestions() {
-    const targetSpread = presetSpreadSelect.value || currentSpread;
-    presetSpreadSelect.value = targetSpread;
-    const options = presetQuestions[targetSpread] || [];
+    const options = presetQuestions[currentSpread] || [];
     presetQuestionSelect.innerHTML = options.map((q) => `<option value="${q}">${q}</option>`).join('');
 }
 
@@ -224,8 +210,6 @@ function bindEvents() {
             customQuestion.hidden = currentQuestionMode === 'preset';
         });
     });
-
-    presetSpreadSelect.addEventListener('change', updatePresetQuestions);
 
     drawBtn.addEventListener('click', () => {
         const questionText =
@@ -290,6 +274,9 @@ function bindEvents() {
             }
             
             const readingResult = data.reading;
+            const formattedResult = readingResult
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
             // 最終的な結果を表示
             const finalMessage = `
@@ -297,7 +284,7 @@ function bindEvents() {
                 <p>質問内容：${questionText}</p>
                 <div style="margin-top: 15px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
                     <p style="font-weight: bold; color: var(--accent-strong);">💡 タロットからのメッセージ</p>
-                    <p>${readingResult}</p>
+                    <p style="white-space' pre-wrap;">${formattedResult}</p>
                 </div>
                 <p style="color: var(--muted); margin-top: 20px;">このスプレッドでは、<strong>${spreadInfo.description}</strong> という視点で深く読み解くことができます。カードを引きながら、直感で気づいた言葉や感情をメモしてみましょう。</p>
             `;
@@ -317,8 +304,28 @@ function bindEvents() {
         }
         
     });
+        if (voiceToggleBtn) {
+    voiceToggleBtn.addEventListener('click', () => {
+        isVoiceEnabled = !isVoiceEnabled;
 
-   
+        if (isVoiceEnabled) {
+            // ONの状態
+            voiceToggleBtn.innerHTML = "🔊 読み上げ: ON"; // アイコン付きテキスト
+            voiceToggleBtn.classList.add('active');
+            
+            // もし既に分析結果が表示されていたら、デモとして読み上げてみる
+            const resultText = document.querySelector('#analysisOutput div')?.innerText;
+            if(resultText && resultText.length > 10) {
+                 speak(resultText);
+            }
+        } else {
+            // OFFの状態
+            voiceToggleBtn.innerHTML = "🔇 読み上げ: OFF";
+            voiceToggleBtn.classList.remove('active');
+            window.speechSynthesis.cancel(); // 停止
+        }
+    });
+}  
 }
 
 function initMotionStage() {
@@ -484,6 +491,10 @@ document.addEventListener('DOMContentLoaded', init);
 
 
  function speak(text){
+    if(!isVoiceEnabled){
+        window.speechSynthesis.cancel();
+        return;
+    }
     if(!text) return;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.6;   
@@ -513,4 +524,10 @@ document.addEventListener('DOMContentLoaded', init);
         speechSynthesis.speak(utterance);
     }
  }
-
+ document.getElementById('resetBtn').addEventListener('click', function(){
+    window.speechSynthesis.cancel();
+    const isConfirmed = confirm("現在の内容をリセットしますか？");
+    if(isConfirmed){
+        location.reload();
+    }
+ })
