@@ -10,7 +10,8 @@
   "description": "",
   "main": "index2.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "npm run-script build"
   },
   "keywords": [],
   "author": "",
